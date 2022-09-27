@@ -1,0 +1,39 @@
+<div class="main">
+    <div class="auth-wrapper">
+        <div class="auth-content mt-5">
+            <div class="card">
+                <div class="row align-items-center text-center">
+                    <div class="col-md-12">
+                        <div class="card-body">
+                            <!-- <img src="assets/images/user/player2.png" alt="" class="img-fluid mb-4" height="60" width="60"> -->
+                            <h4 class="mb-3 f-w-400">Log in</h4>
+                            <form (ngSubmit)="submit()" [formGroup]="loginForm">
+                                <div class="form-group mb-3">
+                                    <input type="email" id="email" class="form-control" placeholder="Email address"
+                                        formControlName="sEmail">
+                                </div>
+                                <div *ngIf="isValidInput('sEmail')" class="alert alert-danger">
+                                    <div *ngIf="loginForm.controls['sEmail'].errors.required">Email is required. </div>
+                                </div>
+                                <div class="form-group mb-4">
+                                    <input type="password" id="password" class="form-control" placeholder="Password"
+                                        formControlName="sPassword">
+                                </div>
+                                <div *ngIf="isValidInput('sPassword')" class="alert alert-danger">
+                                    <div *ngIf="loginForm.controls['sPassword'].errors.required">Password is required.
+                                    </div>
+                                </div>
+                                <button class="btn btn-block btn-primary mb-0" [disabled]="!loginForm.valid">
+                                    <i class="fa fa-spinner fa-spin" *ngIf="showLoader"></i>{{showLoader? '' : 'Login'}}
+                                </button>
+                                <p class="mt-4 mb-0 text-muted"> <a [routerLink]="['/auth/forgot-password']"
+                                        class="f-w-400">Forgot
+                                        password?</a></p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

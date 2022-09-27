@@ -1,0 +1,273 @@
+<div class="user-profile user-card mb-4" *ngIf="profileData">
+  <div class="card-body py-0">
+    <div class="user-about-block m-0">
+      <div class="row">
+        <div class="col-md-4 text-center mt-n5">
+          <div class="change-profile text-center">
+            <div class="dropdown w-auto d-inline-block" ngbDropdown>
+              <a class="dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle aria-haspopup="true"
+                aria-expanded="false">
+                <div *ngIf="profileData" style="width: 150px; height: 150px;">
+                  <div class="d-inline-block">
+                    <img src="assets/images/logo.png"
+                      onerror="this.src='assets/images/user/noimage.png';" alt="User image" height="150px" style="border-radius: 100%;">
+                  </div>
+                </div>
+
+              </a>
+
+            </div>
+          </div>
+          <h5 class="mb-1 mt-2">{{profileData.sUserName}}</h5>
+          <p class="mb-2 text-muted">{{profileData.eUserType}}</p>
+        </div>
+        <div class="col-md-8 mt-md-4">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="clearfix"></div>
+              <a href="javascript:" class="mb-1 text-muted d-flex align-items-end text-h-primary"><i
+                  class="feather icon-mail mr-2 f-18"></i>{{profileData.sEmail}}</a>
+              <div class="clearfix"></div>
+              <a class="mb-1 text-muted d-flex align-items-end text-h-primary"><i
+                  class="feather icon-phone mr-2 f-18"></i>{{ profileData.sMobile || 'Mobile' }}</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="profileData">
+  <div class="col-md-12">
+    <button (click)="editModel.show()" class="btn btn-primary mb-2">Change Password</button>
+    <div class="tab-content" id="myTabContent">
+
+      <div class=" fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="merge-card">
+          <app-card [hidHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Admin Info</h5>
+            <button type="button"
+              (click)="this.editProfile = !this.editProfile; this.editProfileIcon = this.editProfile ? 'icon-x': 'icon-edit';"
+              class="btn btn-primary btn-sm rounded m-0 float-right" data-toggle="collapse" data-target=".pro-det-edit"
+              aria-expanded="false" aria-controls="pro-det-edit-1 pro-det-edit-2">
+              <i class="feather" [ngClass]="editProfileIcon"></i>
+            </button>
+          </app-card>
+          <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editProfile">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label font-weight-bolder">Name</label>
+              <div class="col-sm-9 pd">
+                {{profileData.sFullName | titlecase}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label font-weight-bolder">Gender</label>
+              <div class="col-sm-9 pd">
+                {{profileData.eGender | titlecase}}
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label font-weight-bolder">Role</label>
+              <div class="col-sm-9 pd">
+                {{profileData.eUserType | titlecase}}
+              </div>
+            </div>
+          </app-card>
+          <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editProfile">
+            <form (ngSubmit)="editSubmit()" [formGroup]="editForm">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bolder">Name</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" formControlName="sFullName"
+                    placeholder="Full Name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bolder">Gender</label>
+                <div class="col-sm-9">
+                  <select class="form-control" [formControl]="editForm.controls.eGender">
+                    <option value="" selected>Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                  <button type="submit" class="btn btn-primary">Edit User Info</button>
+                </div>
+              </div>
+            </form>
+          </app-card>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-md-12">
+    <div class="tab-content" id="myTabContent">
+
+      <div class=" fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="merge-card">
+          <app-card [hidHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Email</h5>
+            <button type="button"
+              (click)="editEmail = !editEmail; editEmailIcon = editEmail ? 'icon-x': 'icon-edit';"
+              class="btn btn-primary btn-sm rounded m-0 float-right" data-toggle="collapse" data-target=".pro-det-edit"
+              aria-expanded="false" aria-controls="pro-det-edit-1 pro-det-edit-2">
+              <i class="feather" [ngClass]="editEmailIcon"></i>
+            </button>
+          </app-card>
+          <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editEmail">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label font-weight-bolder">Email</label>
+              <div class="col-sm-9 pd">
+                {{ sEmail || 'Email' }} 
+                <span *ngIf="profileData.isEmailVerified"><i class="fas fa-check-circle text-success f-20"></i></span>
+                <span *ngIf="!profileData.isEmailVerified"><i class="fas fa-times-circle text-danger f-18"></i></span>
+              </div>
+            </div>
+            
+          </app-card>
+          <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editEmail">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bolder">Email</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" [(ngModel)]= "sEmail"
+                    placeholder="Email" [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-sm-2" style="padding: 10px 0;">
+                </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-3 col-form-label"></label>
+                  <div class="col-sm-9">
+                    <button type="submit" class="btn btn-primary" (click)= "updateEmail()">Edit Email</button>
+                  </div>
+              </div>
+          </app-card>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="col-md-12">
+    <div class="tab-content" id="myTabContent">
+
+      <div class=" fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="merge-card">
+          <app-card [hidHeader]="true" cardClass="mb-0" blockClass="d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Contact</h5>
+            <button type="button"
+              (click)="editContact = !editContact; editContactIcon = editContact ? 'icon-x': 'icon-edit';"
+              class="btn btn-primary btn-sm rounded m-0 float-right" data-toggle="collapse" data-target=".pro-det-edit"
+              aria-expanded="false" aria-controls="pro-det-edit-1 pro-det-edit-2">
+              <i class="feather" [ngClass]="editContactIcon"></i>
+            </button>
+          </app-card>
+          <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="!editContact">
+            <div class="form-group row">
+              <label class="col-sm-3 col-form-label font-weight-bolder">Contact</label>
+              <div class="col-sm-9 pd">
+                {{sContact || 'Contact'}} 
+                <span *ngIf="profileData.isMobileVerified"><i class="fas fa-check-circle text-success f-20"></i></span>
+                <span *ngIf="!profileData.isMobileVerified"><i class="fas fa-times-circle text-danger f-20"></i></span>
+              </div>
+            </div>
+            
+          </app-card>
+          <app-card [hidHeader]="true" blockClass="border-top pro-det-edit collapse show" *ngIf="editContact">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bolder">Contact</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" [(ngModel)]= "sContact"
+                    placeholder="Mobile" [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="col-sm-2" style="padding: 10px 0;">
+                </div>
+              </div>
+              <div class="form-group row">
+                  <label class="col-sm-3 col-form-label"></label>
+                  <div class="col-sm-9">
+                    <button class="btn btn-primary" (click)="updateContact()">Edit Contact No.</button>
+                    <button class="btn btn-success ml-2" *ngIf="showVerify" (click)="verifyOTP($event)">Verify OTP</button>
+                  </div>
+              </div>
+          </app-card>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+</div>
+
+
+<app-ui-modal #editModel>
+  <div class="app-modal-header">
+    <h5 class="modal-title">Change Password</h5>
+    <button type="button" class="close basic-close" data-dismiss="modal" aria-label="Close"
+      (click)="editModel.hide()"><span aria-hidden="true">&times;</span></button>
+  </div>
+  <div class="app-modal-body">
+    <div class="card-loader text-center" style="margin-top: 100px;margin-bottom: 100px" *ngIf="showLoader"><i
+        class="fa fa-spinner fa-spin"></i></div>
+    <form [formGroup]="passwordForm" *ngIf="!showLoader">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Old Password</label>
+            <input type="password" formControlName="sPassword" class="form-control"
+              placeholder="old Password">
+            <div class="text-danger"
+              *ngIf="isValidInput('sPassword')">
+              <i class="fa fa-exclamation-circle text-danger"></i> Please Enter Valid Password
+            </div>
+          </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+        <div class="form-group">
+          <label>New Password</label>
+          <input type="password" formControlName="sNewPassword" class="form-control"
+            placeholder="New Password">
+          <div class="text-danger"
+            *ngIf="isValidInput('sNewPassword')">
+            <i class="fa fa-exclamation-circle text-danger"></i> Please Enter Valid Password
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+        <div class="form-group">
+          <label>Confirm New Password</label>
+          <input type="password" formControlName="sConfirmPassword" class="form-control"
+            placeholder="Confirm Password">
+          <div class="text-danger"
+            *ngIf="isValidInput('sConfirmPassword')">
+            <i class="fa fa-exclamation-circle text-danger"></i> Please Enter Valid Password
+          </div>
+        </div>
+      </div>
+      </div>
+
+
+    </form>
+  </div>
+  <div class="app-modal-footer">
+    <button type="button" class="btn btn-danger" style="margin-right: 5px" data-dismiss="modal"
+      (click)="passwordForm.reset()">Clear</button>
+    <button type="submit" [disabled]="!passwordForm.valid " (click)="onPassChange()" class="btn btn-primary">Submit</button>
+  </div>
+</app-ui-modal>
